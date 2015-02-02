@@ -43,7 +43,7 @@ public class PeerJDocxFormatter {
 		PgMar pageMargins = null;
 		String inputFilename = null;
     	String outputFilename = null;
-    	File inputFile; 
+    	File inputFile = null; 
     	
 		CommandLineParser parser = new BasicParser();
 		try {
