@@ -43,7 +43,7 @@ public class PeerJDocxFormatter {
 		PgMar pageMargins = null;
 		String inputFilename = null;
     	String outputFilename = null;
-    	File inputFile; 
+    	File inputFile = null; 
     	
 		CommandLineParser parser = new BasicParser();
 		try {
@@ -60,12 +60,12 @@ public class PeerJDocxFormatter {
 			
 			try {
 				inputFile = new File(inputFilename);
-				if (!inputFile.exists()) {
+				if (!inputFile.isFile()) {
 					throw new Exception("File doesn't exist");
 				}	
 			} catch (Exception e) {
 				System.out.println(String.format("%s file does not exist", inputFilename));
-				return;
+				System.exit(1);
 			}
 
 			// optional
@@ -141,12 +141,18 @@ public class PeerJDocxFormatter {
     		}
     		*/
 
-    		wordMLPackage.save(new File(outputFilename));
+    		File outputFile = new File(outputFilename);
+    		wordMLPackage.save(outputFile);
     		
+    		if (!outputFile.isFile()) {
+    			throw new Exception("Failed to generate output file");
+    		}
+
     		System.out.println(String.format("Finished converting %s", outputFilename));
     	} catch (Exception e) {
-    		// TODO Auto-generated catch block
+    		System.out.println(String.format("Error!! Failed converting %s", outputFilename));
     		e.printStackTrace();
+    		System.exit(1);
     	}
     }
 
