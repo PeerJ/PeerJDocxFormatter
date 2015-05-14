@@ -80,10 +80,10 @@ public class PeerJDocxFormatter {
 				String[] margins = marginOption.split(","); 
 				
 				pageMargins = new PgMar();
-	    		pageMargins.setLeft(cmToEmu(Double.parseDouble(margins[0])));
-	    		pageMargins.setTop(cmToEmu(Double.parseDouble(margins[1])));
-	    		pageMargins.setRight(cmToEmu(Double.parseDouble(margins[2])));
-	    		pageMargins.setBottom(cmToEmu(Double.parseDouble(margins[3])));
+	    		pageMargins.setLeft(cmToDxa(Double.parseDouble(margins[0])));
+	    		pageMargins.setTop(cmToDxa(Double.parseDouble(margins[1])));
+	    		pageMargins.setRight(cmToDxa(Double.parseDouble(margins[2])));
+	    		pageMargins.setBottom(cmToDxa(Double.parseDouble(margins[3])));
 			}
 		} catch (Exception e) {
 			formatter.printHelp( "DocxJ", options );
@@ -108,7 +108,7 @@ public class PeerJDocxFormatter {
     			}
 
     			if (lineNumberingDistance > 0) {
-    				CTLineNumber lineNumbering = getLineNumbering(cmToEmu(lineNumberingDistance)); 
+    				CTLineNumber lineNumbering = getLineNumbering(cmToDxa(lineNumberingDistance)); 
     				sectPr.setLnNumType(lineNumbering);
     			} else if (lineNumberingDistance < 0) {    				
     				CTLineNumber lineNumbering = removeLineNumbering(); 
@@ -156,11 +156,12 @@ public class PeerJDocxFormatter {
     	}
     }
 
-	private static BigInteger cmToEmu(double cm) {
-		// http://en.wikipedia.org/wiki/Office_Open_XML_file_formats#DrawingML
-		double emu = cm * 571;
-		return BigInteger.valueOf((long)emu);
-		//return BigInteger.valueOf((long) cm * 36000);
+	private static BigInteger cmToDxa(double cm) {
+		// http://www.asknumbers.com/CentimetersToPointsConversion.aspx
+		// https://startbigthinksmall.wordpress.com/2010/01/04/points-inches-and-emus-measuring-units-in-office-open-xml/
+		double points = cm * 28.3464567;
+		double dxa = points * 20;
+		return BigInteger.valueOf((long)dxa);
 	}
 
 	@SuppressWarnings("unused")
@@ -169,7 +170,7 @@ public class PeerJDocxFormatter {
 		// not exactly, changes to fixed 1.0cm
 		// leaving out for now
 		Spacing s = new Spacing();
-		s.setLine(cmToEmu(1));
+		s.setLine(cmToDxa(1));
 		PPr ppr = new PPr();
 		ppr.setSpacing(s);
 		//System.out.println(String.format("Spacing %s", ppr.getSpacing().g));
