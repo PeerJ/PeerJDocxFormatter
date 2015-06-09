@@ -1,5 +1,6 @@
 package peerjDocxFormatter;
 import java.io.*;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.openpackaging.parts.relationships.Namespaces;
 import org.docx4j.relationships.Relationship;
+import org.docx4j.wml.CTBackground;
 import org.docx4j.wml.PPr;
 import org.docx4j.wml.PPrBase.Spacing;
 import org.docx4j.wml.STPageOrientation;
@@ -25,8 +27,10 @@ import org.docx4j.wml.SectPr.PgMar;
 import org.docx4j.wml.SectPr.PgSz;
 import org.docx4j.wml.CTLineNumber;
 import org.docx4j.wml.STLineNumberRestart;
+import org.docx4j.wml.ObjectFactory;
 
 public class PeerJDocxFormatter {
+	@SuppressWarnings("deprecation")
 	public static void main (String[] args) {
 		HelpFormatter formatter = new HelpFormatter();
 		Options options = new Options();
@@ -96,6 +100,10 @@ public class PeerJDocxFormatter {
     		wordMLPackage = WordprocessingMLPackage.load(inputFile);
 
     		MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
+    		ObjectFactory wmlObjectFactory = new ObjectFactory();
+    		CTBackground background = wmlObjectFactory.createCTBackground();
+    		background.setColor("FFFFFF");
+    		mdp.getJaxbElement().setBackground(background);
 
     		SectPrFinder finder = new SectPrFinder(mdp);
     		new TraversalUtil(mdp.getContent(), finder);
