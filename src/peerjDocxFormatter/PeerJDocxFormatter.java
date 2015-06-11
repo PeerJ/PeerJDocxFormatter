@@ -119,6 +119,10 @@ public class PeerJDocxFormatter {
     		background.setColor("FFFFFF");
     		mdp.getJaxbElement().setBackground(background);
 
+    		if (removeHeaderFooters) {
+        		removeHeaderFooters(mdp);
+        		}
+
     		SectPrFinder finder = new SectPrFinder(mdp);
     		new TraversalUtil(mdp.getContent(), finder);
     		for (SectPr sectPr : finder.getOrderedSectPrList()) {
@@ -139,8 +143,8 @@ public class PeerJDocxFormatter {
     				// remove header/footer references
     				sectPr.getEGHdrFtrReferences().clear();
     			}
-    			
-                if (lineNumberingDistance > 0) {
+
+    			if (lineNumberingDistance > 0) {
                     CTLineNumber lineNumbering = getLineNumbering(cmToDxa(lineNumberingDistance));
                     sectPr.setLnNumType(lineNumbering);
                 } else if (lineNumberingDistance < 0) {
@@ -148,11 +152,7 @@ public class PeerJDocxFormatter {
                     sectPr.setLnNumType(lineNumbering);
                 }
     		}
-    		
-    		if (removeHeaderFooters) {
-    			removeHeaderFooters(mdp);
-    		}
-    		
+
     		/* Needs further investigation
     		ClassFinder pFinder = new ClassFinder(P.class);    		
     		new TraversalUtil(mdp.getContent(), pFinder);
@@ -202,9 +202,10 @@ public class PeerJDocxFormatter {
 		CTLineNumber n = new CTLineNumber();
 		n.setCountBy(BigInteger.valueOf(1));
 		n.setDistance(distance);
-		n.setStart(BigInteger.valueOf(1));
+		// strange issue where setting to 1 would sometimes set as 2 in ms word.  setting to 0 works in both cases
+		n.setStart(BigInteger.valueOf(0));
 		n.setRestart(STLineNumberRestart.CONTINUOUS);
-		
+
 		return n;
 	}
 	
