@@ -9,6 +9,7 @@ import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.docx4j.TraversalUtil;
 import org.docx4j.finders.SectPrFinder;
@@ -32,6 +33,7 @@ import org.docx4j.wml.ObjectFactory;
 public class PeerJDocxFormatter {
 	@SuppressWarnings("deprecation")
 	public static void main (String[] args) {
+		String version = "0.0.1";
 		HelpFormatter formatter = new HelpFormatter();
 		Options options = new Options();
 
@@ -39,8 +41,13 @@ public class PeerJDocxFormatter {
 		options.addOption("m", true, "margins left,top,right,bottom");
 		options.addOption("l",  true, "line numbering distance");
 		options.addOption("r",  false, "remove headers and footers");
-		options.addOption("i",  true, "input docx file");
-		options.addOption("o",  true, "output docx file");
+		Option input = new Option("i",  true, "input docx file");
+		input.setRequired(true);
+		options.addOption(input);
+		Option output = new Option("o",  true, "output docx file");
+		output.setRequired(true);
+		options.addOption(output);
+		options.addOption("v",  false, "version");
 
 		boolean removeHeaderFooters = true;
 		double lineNumberingDistance = 0;
@@ -54,7 +61,13 @@ public class PeerJDocxFormatter {
 			CommandLine cmd = parser.parse( options, args);
 			
 			if (cmd.hasOption("h")) {
-				formatter.printHelp( "DocxJ", options );
+				formatter.printHelp( "java -jar PeerJDocxFormatter.jar", options );
+				System.out.println("PeerJDocxFormatter Version: " + version);
+				return;
+			}
+
+			if (cmd.hasOption("v")) {
+				System.out.println("PeerJDocxFormatter Version: " + version);
 				return;
 			}
 
@@ -90,7 +103,8 @@ public class PeerJDocxFormatter {
 	    		pageMargins.setBottom(cmToDxa(Double.parseDouble(margins[3])));
 			}
 		} catch (Exception e) {
-			formatter.printHelp( "DocxJ", options );
+			formatter.printHelp( "java -jar PeerJDocxFormatter.jar", options );
+			System.out.println("PeerJDocxFormatter Version: " + version);
 			e.printStackTrace();
 			return;
 		}
