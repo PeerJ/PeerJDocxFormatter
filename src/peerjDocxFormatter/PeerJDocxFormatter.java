@@ -115,16 +115,8 @@ public class PeerJDocxFormatter {
     				sectPr.setPgSz(getUSLetterPortraitPageSize());
     			}
 
-    			if (lineNumberingDistance > 0) {
-    				CTLineNumber lineNumbering = getLineNumbering(cmToDxa(lineNumberingDistance)); 
-    				sectPr.setLnNumType(lineNumbering);
-    			} else if (lineNumberingDistance < 0) {    				
-    				CTLineNumber lineNumbering = removeLineNumbering(); 
-    				sectPr.setLnNumType(lineNumbering);
-    			}
-    			
     			// TODO: Double spacing?
-    			
+
     			if (pageMargins != null) {
     				sectPr.setPgMar(pageMargins);
     			}
@@ -134,7 +126,13 @@ public class PeerJDocxFormatter {
     				sectPr.getEGHdrFtrReferences().clear();
     			}
     			
-    			
+                if (lineNumberingDistance > 0) {
+                    CTLineNumber lineNumbering = getLineNumbering(cmToDxa(lineNumberingDistance));
+                    sectPr.setLnNumType(lineNumbering);
+                } else if (lineNumberingDistance < 0) {
+                    CTLineNumber lineNumbering = removeLineNumbering();
+                    sectPr.setLnNumType(lineNumbering);
+                }
     		}
     		
     		if (removeHeaderFooters) {
