@@ -4,9 +4,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="/home/patrick/workspace/PeerJDocxFormatter/refs/commons-cli-1.2.jar"/>
 	<classpathentry kind="lib" path="/home/patrick/workspace/PeerJDocxFormatter/refs/commons-io-2.4.jar"/>
-	<classpathentry kind="lib" path="/home/patrick/workspace/PeerJDocxFormatter/refs/docx4j-nightly-20141016.jar"/>
 	<classpathentry kind="lib" path="/home/patrick/workspace/PeerJDocxFormatter/refs/slf4j-api-1.7.7.jar"/>
 	<classpathentry kind="lib" path="/home/patrick/workspace/PeerJDocxFormatter/refs/slf4j-nop-1.7.7.jar"/>
 	<classpathentry kind="lib" path="/home/patrick/workspace/PeerJDocxFormatter/refs/xmlgraphics-commons-2.0.jar"/>
+	<classpathentry kind="lib" path="/home/patrick/workspace/PeerJDocxFormatter/refs/docx4j-nightly-20150609.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
