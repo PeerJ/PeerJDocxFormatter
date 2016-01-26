@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<project name="PeerJDocxFormatter" basedir="." default="build-jar">
+   <property name="src.dir" value="src"/>
+   <property name="ref.dir" value="refs"/>
+   <property name="jar.dir" value="."/>
+   <property name="build.dir" value="bin"/>
+   <property name="name" value="peerjDocxFormatter"/>
+
+   <path id="master-classpath">
+      <fileset dir="${ref.dir}">
+         <include name="*.jar"/>
+      </fileset>
+      <pathelement path="${build.dir}"/>
+   </path>
+
+   <target name="build" description="Compile source tree java files">
+      <mkdir dir="${build.dir}"/>
+      <javac destdir="${build.dir}" source="1.5" target="1.5" includeantruntime="false">
+         <src path="${src.dir}"/>
+         <classpath refid="master-classpath"/>
+      </javac>
+   </target>
+ 
+   <target name="clean" description="Clean output directories">
+      <delete>
+         <fileset dir="${build.dir}">
+            <include name="**/*.class"/>
+         </fileset>
+      </delete>
+   </target>
+
+  <target name="build-jar" depends="build">
+    <jar destfile="${jar.dir}/PeerJDocxFormatter.jar"
+       basedir="${build.dir}" filesetmanifest="mergewithoutmain">
+       <manifest>
+          <attribute name="Main-Class" value="peerjDocxFormatter.PeerJDocxFormatter"/>
+       	  <attribute name="Class-Path" value="."/>
+       </manifest>
+        <zipfileset excludes="META-INF/*.SF" src="${ref.dir}/commons-cli-1.2.jar"/>
+        <zipfileset excludes="META-INF/*.SF" src="${ref.dir}/commons-io-2.4.jar"/>
+        <zipfileset excludes="META-INF/*.SF" src="${ref.dir}/slf4j-api-1.7.7.jar"/>
+        <zipfileset excludes="META-INF/*.SF" src="${ref.dir}/slf4j-nop-1.7.7.jar"/>
+        <zipfileset excludes="META-INF/*.SF" src="${ref.dir}/xmlgraphics-commons-2.0.jar"/>
+        <zipfileset excludes="META-INF/*.SF" src="${ref.dir}/docx4j-nightly-20150609.jar"/>
+    </jar>
+  </target>
+
+</project>
